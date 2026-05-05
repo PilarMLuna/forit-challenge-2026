@@ -30,6 +30,36 @@ app.post('/api/tasks', (req, res) => {
     res.status(201).json(newTask);
 });
 
+app.put('/api/tasks/:id', (req, res) => {
+    const { id } = req.params;
+    const { title, description, completed } = req.body;
+
+    const taskIndex = tasks.findIndex(task => task.id === id);
+
+    if (taskIndex === -1) {
+        return res.status(404).json({ error: 'Tarea no encontrada' });
+    }
+
+    if (title !== undefined) tasks[taskIndex].title = title;
+    if (description !== undefined) tasks[taskIndex].description = description;
+    if (completed !== undefined) tasks[taskIndex].completed = completed;
+
+    res.json(tasks[taskIndex]);
+});
+
+app.delete('/api/tasks/:id', (req, res) => {
+    const { id } = req.params;
+    const taskIndex = tasks.findIndex(task => task.id === id);
+
+    if (taskIndex === -1) {
+        return res.status(404).json({ error: 'Tarea no encontrada' });
+    }
+
+    tasks.splice(taskIndex, 1);
+
+    res.json({ message: 'Tarea eliminada correctamente' });
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor de ForIT corriendo en http://localhost:${PORT}`);
 });
