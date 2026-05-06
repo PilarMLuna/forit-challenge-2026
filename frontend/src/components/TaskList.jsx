@@ -4,19 +4,51 @@ import { Link } from 'react-router-dom';
 function TaskList() {
     const [tasks, setTasks] = useState([]);
 
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch('/api/tasks');
-                const data = await response.json();
-                setTasks(data);
-            } catch (error) {
-                console.error('Error al traer las tareas:', error);
-            }
-        };
+    const fetchTasks = async () => {
+        try {
+            const response = await fetch('/api/tasks');
+            const data = await response.json();
+            setTasks(data);
+        } catch (error) {
+            console.error('Error al traer las tareas:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchTasks();
     }, []);
+
+    const handleToggle = async (task) => {
+        try {
+            const response = await fetch(`/api/tasks/${task.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ completed: !task.completed })
+            });
+
+            if (response.ok) {
+                fetchTasks(); 
+            }
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`/api/tasks/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                fetchTasks();
+            }
+        } catch (error) {
+            console.error('Error al borrar:', error);
+        }
+    };
 
     return (
         <div>
@@ -37,6 +69,16 @@ function TaskList() {
                             <h3>{task.title}</h3>
                             <p>{task.description}</p>
                             <p>Estado: {task.completed ? '✅ Completada' : '⏳ Pendiente'}</p>
+                            
+                            
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                                <button onClick={() => handleToggle(task)} style={{ cursor: 'pointer' }}>
+                                    {task.completed ? 'Marcar como Pendiente' : 'Marcar como Completada'}
+                                </button>
+                                <button onClick={() => handleDelete(task.id)} style={{ cursor: 'pointer', color: 'red' }}>
+                                    Borrar
+                                </button>
+                            </div>
                         </li>
                     ))
                 )}
