@@ -56,7 +56,6 @@ app.put('/api/tasks/:id', (req, res) => {
     );
 });
 
-// 6. DELETE: Borrar una tarea
 app.delete('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
     db.run('DELETE FROM tasks WHERE id = ?', id, function (err) {

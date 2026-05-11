@@ -1,0 +1,193 @@
+/* Reseteo básico */
+* {
+  box-sizing: border-box;
+}
+
+/* Fondo principal oscuro con tinte morado */
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #0f0a18;
+  background-image: radial-gradient(circle at top right, #2a1542, #0f0a18);
+  color: #e9d5ff;
+  margin: 0;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Tarjeta central (El "cuaderno" digital) */
+.main-container {
+  max-width: 650px;
+  width: 100%;
+  background-color: #1a1128;
+  padding: 35px;
+  border-radius: 16px;
+  border: 1px solid #3b235d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  color: #c084fc;
+  font-size: 2.2rem;
+  margin-top: 0;
+  border-bottom: 2px dashed #3b235d;
+  padding-bottom: 15px;
+}
+
+h2 {
+  color: #f3e8ff;
+  font-weight: 500;
+}
+
+/* Formularios y campos de texto */
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  background-color: #271a3b;
+  border: 1px solid #4c2d77;
+  color: #f3e8ff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #a855f7;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Botones base */
+button {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+/* Variantes de botones */
+.btn-primary {
+  background-color: #9333ea;
+  color: white;
+  width: 100%;
+}
+.btn-primary:hover {
+  background-color: #a855f7;
+}
+
+.btn-create {
+  margin-bottom: 25px;
+  width: auto;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #9ca3af;
+  border: 1px solid #4b5563;
+  width: 100%;
+}
+.btn-cancel:hover {
+  background-color: #374151;
+  color: white;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background-color: #3b235d;
+  color: #e9d5ff;
+}
+.btn-secondary:hover {
+  background-color: #4c2d77;
+}
+
+.btn-edit {
+  background-color: #2563eb;
+  color: white;
+}
+.btn-edit:hover {
+  background-color: #3b82f6;
+}
+
+.btn-delete {
+  background-color: #be123c;
+  color: white;
+}
+.btn-delete:hover {
+  background-color: #e11d48;
+}
+
+/* Lista de tareas */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-card {
+  background-color: #221634;
+  border: 1px solid #3b235d;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: transform 0.2s;
+}
+
+.task-card h3 {
+  margin: 0 0 10px 0;
+  color: #d8b4fe;
+}
+
+.task-desc {
+  color: #d1d5db;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.task-status {
+  font-weight: 500;
+  color: #a855f7;
+  background-color: #3b235d;
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+/* Estilo visual para las tareas completadas */
+.task-card.completed {
+  opacity: 0.6;
+  border-color: #166534;
+}
+
+.task-card.completed h3 {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #9ca3af;
+  font-style: italic;
+  margin-top: 30px;
+}

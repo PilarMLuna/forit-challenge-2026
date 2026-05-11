@@ -42,33 +42,32 @@ function TaskList() {
 
     return (
         <div>
-            <h2>Mis Tareas</h2>
+            <h2>Mis tareas</h2>
+            
             <Link to="/new">
-                <button style={{ padding: '10px', marginBottom: '20px', cursor: 'pointer' }}>
-                    Crear Nueva Tarea
-                </button>
+                <button className="btn-primary btn-create">Crear nueva tarea</button>
             </Link>
 
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+            <ul className="task-list">
                 {tasks.length === 0 ? (
-                    <p>No hay tareas todavía. ¡Creá una!</p>
+                    <p className="empty-msg">No hay tareas todavía. ¡Creá una!</p>
                 ) : (
                     tasks.map(task => (
-                        <li key={task.id} style={{ border: '1px solid gray', margin: '10px 0', padding: '10px' }}>
+                        <li key={task.id} className={`task-card ${task.completed ? 'completed' : ''}`}>
                             <h3>{task.title}</h3>
-                            <p>{task.description}</p>
-                            <p>Estado: {task.completed ? '✅ Completada' : '⏳ Pendiente'}</p>
+                            <p className="task-desc">{task.description}</p>
+                            <p className="task-status">Estado: {task.completed ? '✅ Completada' : '⏳ Pendiente'}</p>
 
-                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                                <button onClick={() => handleToggle(task)} style={{ cursor: 'pointer' }}>
+                            <div className="btn-group">
+                                <button className="btn-secondary" onClick={() => handleToggle(task)}>
                                     {task.completed ? 'Marcar como Pendiente' : 'Marcar como Completada'}
                                 </button>
 
                                 <Link to={`/edit/${task.id}`} state={{ task }}>
-                                    <button style={{ cursor: 'pointer', color: 'blue' }}>Editar</button>
+                                    <button className="btn-edit">Editar</button>
                                 </Link>
 
-                                <button onClick={() => handleDelete(task.id)} style={{ cursor: 'pointer', color: 'red' }}>
+                                <button className="btn-delete" onClick={() => handleDelete(task.id)}>
                                     Borrar
                                 </button>
                             </div>

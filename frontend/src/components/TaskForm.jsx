@@ -26,27 +26,21 @@ function TaskForm() {
 
             const response = await fetch(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(taskData)
             });
 
-            if (response.ok) {
-                navigate('/');
-            } else {
-                console.error('Error al procesar la tarea en el backend');
-            }
+            if (response.ok) navigate('/');
         } catch (error) {
             console.error('Error de red al intentar hacer el POST/PUT:', error);
         }
     };
 
     return (
-        <div>
-            <h2>{id ? 'Editar Tarea' : 'Crear Nueva Tarea'}</h2>
+        <div className="form-container">
+            <h2>{id ? 'Editar tarea' : 'Crear nueva tarea'}</h2>
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px' }}>
+            <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="Título de la tarea"
@@ -60,15 +54,14 @@ function TaskForm() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    style={{ minHeight: '80px' }}
                 />
 
-                <button type="submit" style={{ cursor: 'pointer', padding: '10px' }}>
-                    {id ? 'Actualizar Tarea' : 'Guardar Tarea'}
+                <button type="submit" className="btn-primary">
+                    {id ? 'Actualizar tarea' : 'Guardar tarea'}
                 </button>
             </form>
 
-            <button onClick={() => navigate('/')} style={{ marginTop: '10px', cursor: 'pointer' }}>
+            <button className="btn-cancel" onClick={() => navigate('/')}>
                 Cancelar
             </button>
         </div>
