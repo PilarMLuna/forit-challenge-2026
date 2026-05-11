@@ -20,25 +20,32 @@ Aplicación Full Stack para la gestión de tareas (CRUD completo) desarrollada c
 Para correr este proyecto en tu entorno local, sigue estos pasos:
 
 ### 1. Clonar el repositorio
-\`\`\`bash
+
+```bash
 git clone https://github.com/PilarMLuna/forit-challenge-2026.git
 cd forit-challenge-2026
-\`\`\`
+```
 
 ### 2. Levantar el Backend
+
 Abre una terminal y ejecuta:
-\`\`\`bash
+
+```bash
 cd backend
 npm install
 node server.js
-\`\`\`
+```
+
 El servidor iniciará en `http://localhost:3000` y generará automáticamente el archivo `database.sqlite`.
 
 ### 3. Levantar el Frontend
+
 Abre una nueva pestaña en la terminal y ejecuta:
-\`\`\`bash
+
+```bash
 cd frontend
 npm install
 npm run dev
-\`\`\`
+```
+
 La aplicación web estará disponible en `http://localhost:5173`.
