@@ -15,6 +15,17 @@ Aplicación Full Stack para la gestión de tareas (CRUD completo) desarrollada c
 * Base de datos relacional (SQLite) para asegurar la persistencia de datos tras el reinicio del servidor.
 * Rutas dinámicas en el frontend para crear, visualizar, editar y eliminar tareas.
 
+## 📸 Vistas de la aplicación
+
+### Lista de tareas
+![Pantalla Principal](./assets/Principal.png)
+
+### Crear nueva tarea
+![Formulario de Creación](./assets/CrearTarea.png)
+
+### Editar tarea
+![Formulario de Edición](./assets/EditarTarea.png)
+
 ## 🛠️ Instalación y Ejecución Local
 
 Para correr este proyecto en tu entorno local, sigue estos pasos:

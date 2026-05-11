@@ -52,7 +52,12 @@ function TaskList() {
                 {tasks.length === 0 ? (
                     <p className="empty-msg">No hay tareas todavía. ¡Creá una!</p>
                 ) : (
-                    tasks.map(task => (
+                    [...tasks].sort((a, b) => {
+                        if (a.completed === b.completed) {
+                            return b.id - a.id; 
+                        }
+                        return Number(a.completed) - Number(b.completed);
+                    }).map(task => (
                         <li key={task.id} className={`task-card ${task.completed ? 'completed' : ''}`}>
                             <h3>{task.title}</h3>
                             <p className="task-desc">{task.description}</p>
