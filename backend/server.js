@@ -1,65 +1,70 @@
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const sqlite3 = require('sqlite3').verbose();
 
+const app = express();
 app.use(express.json());
 
-let tasks = [];
+const db = new sqlite3.Database('./database.sqlite', (err) => {
+    if (err) console.error('Error al abrir la base de datos:', err.message);
+    else console.log('Conexión establecida con SQLite.');
+});
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        completed BOOLEAN DEFAULT 0
+    )
+`);
 
 app.get('/api/tasks', (req, res) => {
-    res.json(tasks);
+    db.all('SELECT * FROM tasks', [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        const formattedTasks = rows.map(t => ({ ...t, completed: !!t.completed }));
+        res.json(formattedTasks);
+    });
 });
 
 app.post('/api/tasks', (req, res) => {
     const { title, description } = req.body;
-
-    if (!title || !description) {
-        return res.status(400).json({ error: 'El título y la descripción son obligatorios' });
-    }
-
-    const newTask = {
-        id: Date.now().toString(),
-        title: title,
-        description: description,
-        completed: false,
-        createdAt: new Date()
-    };
-
-    tasks.push(newTask);
-
-    res.status(201).json(newTask);
+    db.run(
+        'INSERT INTO tasks (title, description) VALUES (?, ?)',
+        [title, description],
+        function (err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.status(201).json({ id: this.lastID, title, description, completed: false });
+        }
+    );
 });
 
 app.put('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
     const { title, description, completed } = req.body;
 
-    const taskIndex = tasks.findIndex(task => task.id === id);
-
-    if (taskIndex === -1) {
-        return res.status(404).json({ error: 'Tarea no encontrada' });
-    }
-
-    if (title !== undefined) tasks[taskIndex].title = title;
-    if (description !== undefined) tasks[taskIndex].description = description;
-    if (completed !== undefined) tasks[taskIndex].completed = completed;
-
-    res.json(tasks[taskIndex]);
+    db.run(
+        `UPDATE tasks 
+         SET title = COALESCE(?, title), 
+             description = COALESCE(?, description), 
+             completed = COALESCE(?, completed) 
+         WHERE id = ?`,
+        [title, description, completed !== undefined ? (completed ? 1 : 0) : null, id],
+        function (err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ message: 'Tarea actualizada correctamente' });
+        }
+    );
 });
 
+// 6. DELETE: Borrar una tarea
 app.delete('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
-    const taskIndex = tasks.findIndex(task => task.id === id);
-
-    if (taskIndex === -1) {
-        return res.status(404).json({ error: 'Tarea no encontrada' });
-    }
-
-    tasks.splice(taskIndex, 1);
-
-    res.json({ message: 'Tarea eliminada correctamente' });
+    db.run('DELETE FROM tasks WHERE id = ?', id, function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Tarea eliminada' });
+    });
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor de ForIT corriendo en http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log('Servidor backend escuchando en el puerto 3000');
 });

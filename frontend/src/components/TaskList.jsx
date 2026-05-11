@@ -22,15 +22,10 @@ function TaskList() {
         try {
             const response = await fetch(`/api/tasks/${task.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ completed: !task.completed })
             });
-
-            if (response.ok) {
-                fetchTasks(); 
-            }
+            if (response.ok) fetchTasks();
         } catch (error) {
             console.error('Error al actualizar:', error);
         }
@@ -38,13 +33,8 @@ function TaskList() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`/api/tasks/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                fetchTasks();
-            }
+            const response = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+            if (response.ok) fetchTasks();
         } catch (error) {
             console.error('Error al borrar:', error);
         }
@@ -53,7 +43,6 @@ function TaskList() {
     return (
         <div>
             <h2>Mis Tareas</h2>
-            
             <Link to="/new">
                 <button style={{ padding: '10px', marginBottom: '20px', cursor: 'pointer' }}>
                     Crear Nueva Tarea
@@ -69,12 +58,16 @@ function TaskList() {
                             <h3>{task.title}</h3>
                             <p>{task.description}</p>
                             <p>Estado: {task.completed ? '✅ Completada' : '⏳ Pendiente'}</p>
-                            
-                            
+
                             <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                                 <button onClick={() => handleToggle(task)} style={{ cursor: 'pointer' }}>
                                     {task.completed ? 'Marcar como Pendiente' : 'Marcar como Completada'}
                                 </button>
+
+                                <Link to={`/edit/${task.id}`} state={{ task }}>
+                                    <button style={{ cursor: 'pointer', color: 'blue' }}>Editar</button>
+                                </Link>
+
                                 <button onClick={() => handleDelete(task.id)} style={{ cursor: 'pointer', color: 'red' }}>
                                     Borrar
                                 </button>
